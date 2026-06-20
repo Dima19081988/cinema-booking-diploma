@@ -52,22 +52,16 @@ Frontend-часть: React + React Router.
 Подробная документация по проекту находится в папке `docs/`.
 
 - [01. Требования](./docs/01-requirements.md)
-- [02. Архитектура](./docs/03-architecture.md)
-- [03. Предметная модель](./docs/04-domain-model.md)
-- [04. Проектирование базы данных](./docs/05-database-design.md)
-- [05. API-контракт](./docs/06-api-contract.md)
+- [02. Архитектура](./docs/02-architecture.md)
+- [03. Предметная модель](./docs/03-domain-model.md)
+- [04. Проектирование базы данных](./docs/04-database-design.md)
+- [05. API-контракт](./docs/05-api.md)
+- [06. Backend-структура](./docs/06-backend-structure.md)
+- [07. Frontend-структура](./docs/07-frontend-structure.md)
+- [08. Развертывание](./docs/08-deployment.md)
+- [09. UI/UX-заметки](./docs/09-ui-ux-notes.md)
+- [10. План разработки](./docs/10-development-plan.md)
 
-docs/
-  01-requirements.md
-  02-architecture.md
-  03-domain-model.md
-  04-database-design.md
-  05-api-contract.md
-  06-backend-structure.md
-  07-frontend-structure.md
-  08-deployment.md
-  09-ui-ux-notes.md
-  10-development-plan.md
 
 ## Текущий статус
 
