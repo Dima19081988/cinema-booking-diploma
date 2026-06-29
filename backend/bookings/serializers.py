@@ -96,3 +96,27 @@ class BookingCreateSerializer(serializers.ModelSerializer):
                 'seat_id': 'Место уже забронировано другим пользователем'
             })
         return booking
+    
+class BookingDetailSerializer(serializers.ModelSerializer):
+    qr_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Booking
+        fields = [
+            "id",
+            "guest_name",
+            "guest_email",
+            "guest_phone",
+            "booking_code",
+            "status",
+            "expires_at",
+            "reserved_at",
+            "created_at",
+            "qr_url",
+        ]
+
+        def get_qr_url(self, obj):
+            request = self.context.get('request')
+            if request is None:
+                return f"/api/v1/bookings/{obj.id}/qr/"
+            return request.build_absolute_uri(f"/api/v1/bookings/{obj.id}/qr/")
