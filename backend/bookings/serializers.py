@@ -103,20 +103,51 @@ class BookingDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
         fields = [
-            "id",
-            "guest_name",
-            "guest_email",
-            "guest_phone",
-            "booking_code",
-            "status",
-            "expires_at",
-            "reserved_at",
-            "created_at",
-            "qr_url",
+            'id',
+            'session_id',
+            'seat_id',
+            'guest_name',
+            'guest_email',
+            'guest_phone',
+            'booking_code',
+            'status',
+            'expires_at',
+            'reserved_at',
+            'created_at',
+            'qr_url',
         ]
 
-        def get_qr_url(self, obj):
-            request = self.context.get('request')
-            if request is None:
-                return f"/api/v1/bookings/{obj.id}/qr/"
-            return request.build_absolute_uri(f"/api/v1/bookings/{obj.id}/qr/")
+    def get_qr_url(self, obj):
+        request = self.context.get('request')
+        path = f'/api/v1/bookings/{obj.id}/qr'
+        if request is None:
+            return path
+        return request.build_absolute_uri(path)
+    
+class AdminBookingListSerializer(serializers.ModelSerializer):
+    session_id = serializers.IntegerField(read_only=True)
+    seat_id = serializers.IntegerField(read_only=True)
+
+    class Meta:
+        model = Booking
+        fields = [
+            'id',
+            'session_id',
+            'seat_id',
+            'guest_name',
+            'guest_email',
+            'guest_phone',
+            'booking_code',
+            'status',
+            'expires_at',
+            'reserved_at',
+            'created_at',
+        ]
+
+class AdminBookingStatusUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Booking
+        fields = [
+            'status',
+        ]
+    
