@@ -1,9 +1,16 @@
 from django.shortcuts import get_object_or_404
+from rest_framework import status
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Session
-from .serializers import SessionListSerializer, SessionDetailSerializer, SessionHallSchemaSerializer
+from .serializers import (
+    SessionListSerializer,
+    SessionDetailSerializer, 
+    SessionHallSchemaSerializer,
+    AdminSessionSerializer
+)
 
 class PublicSessionListView(APIView):
     def get(self, request):
@@ -61,3 +68,39 @@ class PublicSessionHallSchemaView(APIView):
         return Response({
             'data': serializer.data
         })
+
+class AdminSessionListCreateView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        sessions = Session.objects.select_related('movie', 'hall').all().order_by('start_at')
+        serializer = AdminSessionSerializer(sessions, many=True)
+        return Response({'data': serializer.data})
+    
+    def post(self, request):
+        serializer = AdminSessionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        session= serializer.save()
+
+        return Response(
+            {
+                'data': AdminSessionSerializer(session).data
+            },
+            status=status.HTTP_201_CREATED,
+        )
+
+class AdminSessionDetailView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def patch(self, request, session_id):
+        session = get_object_or_404(Session, id=session_id)
+        serializer = AdminSessionSerializer(session, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        session = serializer.save()
+
+        return Response({'data': AdminSessionSerializer(session).data})
+    
+    def delete(self, request, session_id):
+        session = get_object_or_404(Session, id=session_id)
+        session.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
