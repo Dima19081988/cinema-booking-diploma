@@ -10,9 +10,21 @@ class Hall(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def clean(self):
+        errors = {}
+
+        if self.rows_count is not None and self.rows_count < 1:
+            errors['rows_count'] = 'Количество рядов должно быть больше 0.'
+
+        if self.seats_per_row is not None and self.seats_per_row < 1:
+            errors['seats_per_row'] = 'Количество мест в ряду должно быть больше 0.'
+
+        if errors:
+            raise ValidationError(errors)
+        
     class Meta:
         ordering = ['name']
-    
+
     def __str__(self):
         return self.name
 
@@ -37,6 +49,7 @@ class Seat(models.Model):
                 name='unique_seat_per_hall',
             )
         ]
+
     def clean(self):
         errors = {}
 
@@ -83,26 +96,44 @@ class Session(models.Model):
 
     def clean(self):
         errors = {}
+        
+        if self.base_price is not None and self.base_price <= 0:
+            errors['base_price'] = 'Базовая цена должна быть больше 0.'
+
+        if self.vip_price is not None and self.vip_price <= 0:
+            errors['vip_price'] = 'VIP цена должна быть больше 0.'
+
+        if (
+            self.base_price is not None and
+            self.vip_price is not None and
+            self.vip_price < self.base_price
+        ):
+            errors['vip_price'] = 'VIP цена не может быть меньше базовой.'
+
+        if self.status == self.Status.PUBLISHED:
+            if not self.hall_id:
+                errors['hall'] = 'Нельзя опубликовать сеанс без зала.'
+            if not self.movie_id:
+                errors['movie'] = 'Нельзя опубликовать сеанс без фильма.'
 
         if self.start_at and self.end_at and self.end_at <= self.start_at:
             errors['end_at'] = 'Время окончания сеанса должно быть позже времени начала.'
 
         if self.hall_id and self.start_at and self.end_at:
             overlapping_sessions = Session.objects.filter(
-                hall=self.hall, 
-                start_at__lt=self.end_at, 
+                hall=self.hall,
+                start_at__lt=self.end_at,
                 end_at__gt=self.start_at
             )
 
-        if self.pk:
-            overlapping_sessions = overlapping_sessions.exclude(pk=self.pk)
+            if self.pk:
+                overlapping_sessions = overlapping_sessions.exclude(pk=self.pk)
 
-        if overlapping_sessions.exists():
-            errors['start_at'] = 'В этом зале уже есть пересекающийся сеанс.'
-            errors['end_at'] = 'Выбранный интервал времени пересекается с другим сеансом в этом зале.'
-
-        if errors:
-            raise ValidationError(errors)
+            if overlapping_sessions.exists():
+                errors['start_at'] = 'В этом зале уже есть пересекающийся сеанс.'
+                errors['end_at'] = 'Выбранный интервал времени пересекается с другим сеансом в этом зале.'
+                if errors:
+                    raise ValidationError(errors)
         
     def __str__(self):
         return f'{self.movie.title} - {self.start_at:%Y-%m-%d %H:%M}'

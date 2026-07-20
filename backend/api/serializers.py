@@ -1,3 +1,4 @@
+from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class AdminLoginSerializer(TokenObtainPairSerializer):
@@ -12,6 +13,11 @@ class AdminLoginSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
 
+        if not self.user.is_staff:
+            raise serializers.ValidationError({
+                'detail': 'Доступ разрешён только администратору.'
+            })
+        
         return {
             'data': {
                 'access': data['access'],
@@ -19,7 +25,7 @@ class AdminLoginSerializer(TokenObtainPairSerializer):
                 'user': {
                     'id': self.user.id,
                     'email': self.user.email,
-                    'role': 'ADMIN' if self.user.is_staff else 'USER',
+                    'role': 'ADMIN',
                 }
             }
         }

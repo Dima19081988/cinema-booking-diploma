@@ -33,7 +33,8 @@ class SessionListSerializer(serializers.ModelSerializer):
 class SessionDetailSerializer(serializers.ModelSerializer):
     movie_id = serializers.IntegerField(source='movie.id', read_only=True)
     movie_title = serializers.CharField(source='movie.title', read_only=True)
-    hall = HallShortSerializer(read_only=True)
+    hall_id = serializers.IntegerField(source='hall.id', read_only=True)
+    hall_name = serializers.CharField(source='hall.name', read_only=True)
     status_display = serializers.SerializerMethodField()
 
     class Meta:
@@ -42,7 +43,8 @@ class SessionDetailSerializer(serializers.ModelSerializer):
             'id',
             'movie_id',
             'movie_title',
-            'hall',
+            'hall_id',
+            'hall_name',
             'start_at',
             'end_at',
             'base_price',
