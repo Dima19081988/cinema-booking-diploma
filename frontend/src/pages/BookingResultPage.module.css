@@ -1,0 +1,151 @@
+.container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 24px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  margin-bottom: 24px;
+  font-size: 32px;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+.infoColumn {
+  min-width: 0;
+}
+
+.sideColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.section:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.sectionTitle {
+  margin-bottom: 16px;
+  font-size: 22px;
+}
+
+.row {
+  margin-bottom: 10px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.label {
+  font-weight: 700;
+}
+
+.qrBlock {
+  padding: 16px;
+  background: #f8f8f8;
+  border-radius: 12px;
+}
+
+.homeLink {
+  display: inline-block;
+  padding: 12px 18px;
+  background: #222;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+}
+
+.homeLink:hover {
+  background: #000;
+}
+
+@media (min-width: 900px) {
+  .contentGrid {
+    grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+    align-items: start;
+  }
+
+  .sideColumn {
+    position: sticky;
+    top: 20px;
+  }
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.statusReserved {
+  background: #fff4db;
+  color: #8a5b00;
+}
+
+.statusConfirmed {
+  background: #e7f6ea;
+  color: #256c2f;
+}
+
+.statusCanceled {
+  background: #fdeaea;
+  color: #a33a3a;
+}
+
+@media (max-width: 768px) {
+  .container {
+    margin: 20px auto;
+    padding: 16px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 26px;
+  }
+
+  .sectionTitle {
+    font-size: 20px;
+  }
+
+  .row {
+    font-size: 16px;
+  }
+
+  .sideColumn {
+    align-items: center;
+  }
+
+  .qrBlock img {
+    width: 200px;
+    height: 200px;
+  }
+}
+

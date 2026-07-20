@@ -1,0 +1,81 @@
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.title {
+  margin-bottom: 20px;
+  font-size: 32px;
+}
+
+.subtitle {
+  margin-top: 32px;
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.infoCard {
+  padding: 20px;
+  border: 1px solid #dcdcdc;
+  border-radius: 12px;
+  background-color: #f8f8f8;
+}
+
+.label {
+  font-weight: 600;
+}
+
+.schemaWrapper {
+  margin-top: 16px;
+}
+
+.hallName {
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.rowBlock {
+  margin-bottom: 20px;
+}
+
+.rowTitle {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.seatsRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.seat {
+  min-width: 110px;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid #cfcfcf;
+  font-size: 14px;
+}
+
+.available {
+  background-color: #e8f7e8;
+}
+
+.unavailable {
+  background-color: #f8dede;
+}
+
+.selected {
+  border: 2px solid #1e7a46;
+  background-color: #c8f7d1;
+}
+
+.selectedInfo {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: #f5f5f5;
+  border: 1px solid #dcdcdc;
+}
