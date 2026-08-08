@@ -164,7 +164,7 @@ class BookingDetailSerializer(serializers.ModelSerializer):
 
     def get_qr_url(self, obj):
         request = self.context.get('request')
-        path = f'/api/v1/bookings/{obj.id}/qr'
+        path = f'/api/v1/bookings/{obj.id}/qr/'
         if request is None:
             return path
         return request.build_absolute_uri(path)
