@@ -15,7 +15,7 @@ function BookingForm({ bookingForm, onChange, onSubmit }) {
             />
 
             <input 
-                type="text"
+                type="email"
                 name="guest_email"
                 placeholder="Ваша электронная почта"
                 value={bookingForm.guest_email}

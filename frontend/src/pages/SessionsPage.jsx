@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import apiClient from '../api/client.js';
+import { Link, useSearchParams } from 'react-router-dom';
+import { getSessions } from '../api/sessionsApi.js';
 
 function SessionsPage() {
+  const [searchParams] = useSearchParams();
+  const movieId = searchParams.get("movie_id");
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -10,7 +12,10 @@ function SessionsPage() {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const response = await apiClient.get('/sessions');
+        setLoading(true);
+        setError("");
+
+        const response = await getSessions(movieId);
         console.log('SESSIONS RESPONSE:', response.data);
 
         const data = response.data;
@@ -26,7 +31,7 @@ function SessionsPage() {
     }
 
     fetchSessions()
-  }, []);
+  }, [movieId]);
 
   if (loading) {
     return <p>Загрузка сеансов...</p>;
@@ -38,16 +43,22 @@ function SessionsPage() {
 
   return (
     <div>
-      <h1>Сеансы</h1>
+      <h1>{movieId ? "Сеансы выбранного фильма" : "Все сеансы"}</h1>
+
+      {movieId && (
+        <p>
+          <Link to="/sessions">Показать все сеансы</Link>
+        </p>
+      )}
 
       {sessions.length === 0 ? (
-        <p>Сеансы пока не найдены.</p>
+        <p>Подходящие сеансы пока не найдены.</p>
       ) : (
         <ul>
           {sessions.map((session) => (
             <li key={session.id}>
               <Link to={`/sessions/${session.id}`}>
-                {session.movie_title} - {session.hall_name}
+                {session.movie_title} — {session.hall_name}
               </Link>
             </li>
           ))}

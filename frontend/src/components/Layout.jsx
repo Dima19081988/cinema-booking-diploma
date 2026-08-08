@@ -8,8 +8,6 @@ function Layout({ children }) {
                 <nav>
                     <Link to="/">Главная</Link> |{' '}
                     <Link to="/sessions">Сеансы</Link> |{' '}
-                    <Link to="/sessions/1">Сеанс 1</Link> |{' '}
-                    <Link to="/booking/1">Бронь 1</Link>
                 </nav>
 
                 <hr />

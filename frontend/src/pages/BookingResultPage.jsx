@@ -1,11 +1,11 @@
 import { Link, useLocation, useParams } from "react-router-dom";
+import { getBookingByCode } from "../api/bookingsApi";
 import { useState, useEffect } from "react";
 import styles from "./BookingResultPage.module.css";
 
 function BookingResultPage() {
   const location = useLocation();
   const { code } = useParams();
-
   const [booking, setBooking] = useState(location.state?.booking || null);
   const [session, setSession] = useState(location.state?.session || null);
   const [seat, setSeat] = useState(location.state?.seat || null);
@@ -18,15 +18,8 @@ function BookingResultPage() {
         setLoading(true);
         setError("");
 
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/v1/bookings/code/${code}?format=json`
-        );
-
-        if (!response.ok) {
-          throw new Error("Не удалось загрузить бронь");
-        }
-
-        const data = await response.json();
+        const response = await getBookingByCode(code);
+        const data = response.data;
 
         setBooking(data.data);
         setSession(data.data.session || null);
