@@ -42,10 +42,36 @@ class BookingCreateSerializer(serializers.ModelSerializer):
         seat_id = attrs.get('seat_id')
 
         try:
-            session = Session.objects.select_related('hall').get(id=session_id)
+            session = Session.objects.select_related('hall', 'movie').get(
+                id=session_id
+            )
         except Session.DoesNotExist:
-            raise serializers.ValidationError({ 'session_id': 'Сессия не найдена' })
-            
+            raise serializers.ValidationError({
+                'session_id': 'Сеанс не найден.'
+            })
+
+        if session.status != Session.Status.PUBLISHED:
+            raise serializers.ValidationError({
+                'session_id': (
+                    'Бронирование доступно только для опубликованного сеанса.'
+                )
+            })
+
+        if not session.movie.is_active:
+            raise serializers.ValidationError({
+                'session_id': 'Фильм недоступен для бронирования.'
+            })
+
+        if not session.hall.is_active:
+            raise serializers.ValidationError({
+                'session_id': 'Зал недоступен для бронирования.'
+            })
+
+        if session.start_at <= timezone.now():
+            raise serializers.ValidationError({
+                'session_id': 'Нельзя забронировать место на прошедший сеанс.'
+            })
+        
         try:
             seat = Seat.objects.select_related('hall').get(id=seat_id)
         except Seat.DoesNotExist:

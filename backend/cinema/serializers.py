@@ -9,6 +9,17 @@ class HallShortSerializer(serializers.ModelSerializer):
         model = Hall
         fields = ['id', 'name']
 
+class AdminHallSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hall
+        fields = [
+            'id',
+            'name',
+            'rows_count',
+            'seats_per_row',
+            'is_active',
+        ]
+
 class SessionListSerializer(serializers.ModelSerializer):
     movie_id = serializers.IntegerField(source='movie.id', read_only=True)
     movie_title = serializers.CharField(source='movie.title', read_only=True)

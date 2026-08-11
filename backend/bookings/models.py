@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 
 class Booking(models.Model):
     class Status(models.TextChoices):
@@ -34,8 +35,9 @@ class Booking(models.Model):
         ordering = ['-created_at']
         constraints = [
             models.UniqueConstraint(
-                fields=['session', 'seat'], 
-                name='unique_booking_per_session_seat',
+                fields=['session', 'seat'],
+                condition=~Q(status='CANCELED'),
+                name='unique_active_booking_per_session_seat',
             )
         ]
 

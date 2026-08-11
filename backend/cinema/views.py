@@ -4,12 +4,13 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Session
+from .models import Hall, Session
 from .serializers import (
-    SessionListSerializer,
-    SessionDetailSerializer, 
+    AdminHallSerializer,
+    AdminSessionSerializer,
+    SessionDetailSerializer,
     SessionHallSchemaSerializer,
-    AdminSessionSerializer
+    SessionListSerializer,
 )
 
 class PublicSessionListView(APIView):
@@ -69,6 +70,17 @@ class PublicSessionHallSchemaView(APIView):
             'data': serializer.data
         })
 
+class AdminHallListView(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request):
+        halls = Hall.objects.all().order_by('name')
+        serializer = AdminHallSerializer(halls, many=True)
+
+        return Response({
+            'data': serializer.data
+        })
+
 class AdminSessionListCreateView(APIView):
     permission_classes = [IsAdminUser]
 
@@ -102,5 +114,20 @@ class AdminSessionDetailView(APIView):
     
     def delete(self, request, session_id):
         session = get_object_or_404(Session, id=session_id)
+        has_bookings = session.bookings.exclude(
+            status='CANCELED'
+        ).exists()
+
+        if has_bookings:
+            return Response(
+                {
+                    'detail': (
+                        'Нельзя удалить сеанс с активными бронированиями. '
+                        'Отмените сеанс через изменение статуса.'
+                    )
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         session.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

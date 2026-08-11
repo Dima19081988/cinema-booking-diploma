@@ -132,8 +132,9 @@ class Session(models.Model):
             if overlapping_sessions.exists():
                 errors['start_at'] = 'В этом зале уже есть пересекающийся сеанс.'
                 errors['end_at'] = 'Выбранный интервал времени пересекается с другим сеансом в этом зале.'
-                if errors:
-                    raise ValidationError(errors)
+                
+        if errors:
+            raise ValidationError(errors)
         
     def __str__(self):
         return f'{self.movie.title} - {self.start_at:%Y-%m-%d %H:%M}'
