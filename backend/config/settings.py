@@ -117,3 +117,5 @@ CORS_ALLOWED_ORIGINS = [
 CORS_URLS_REGEX = r"^/api/.*$"
 
 # python manage.py runserver
+
+# backend\.venv\Scripts\activate.bat
