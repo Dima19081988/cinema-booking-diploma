@@ -1,0 +1,214 @@
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 16px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.title {
+  margin: 0 0 8px;
+}
+
+.description {
+  margin: 0;
+  color: #666;
+}
+
+.createButton {
+  padding: 10px 14px;
+  border: 0;
+  border-radius: 4px;
+  background: #1976d2;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+}
+
+.table th,
+.table td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e5e5;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table th {
+  background: #f4f6f8;
+}
+
+.activeStatus,
+.inactiveStatus {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.activeStatus {
+  background: #dcefdc;
+  color: #1f6b2d;
+}
+
+.inactiveStatus {
+  background: #f0e0e0;
+  color: #9b1c1c;
+}
+
+.message {
+  padding: 24px 0;
+}
+
+.error {
+  padding: 24px 0;
+  color: #b3261e;
+}
+
+.formSection {
+  margin-bottom: 24px;
+  padding: 20px;
+  border: 1px solid #d7d7d7;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.formTitle {
+  margin: 0 0 16px;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: 1fr;
+  max-width: 620px;
+}
+
+.label {
+  margin: 12px 0 6px;
+  font-weight: 600;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #bdbdbd;
+  border-radius: 4px;
+  font: inherit;
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.formActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.saveButton,
+.cancelButton {
+  padding: 10px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.saveButton {
+  border: 0;
+  background: #1976d2;
+  color: #ffffff;
+}
+
+.cancelButton {
+  border: 1px solid #777;
+  background: #ffffff;
+  color: #333;
+}
+
+.saveButton:disabled,
+.cancelButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.editButton {
+  padding: 7px 10px;
+  border: 1px solid #1976d2;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #1976d2;
+  cursor: pointer;
+  font: inherit;
+}
+
+.editButton:hover {
+  background: #e3f2fd;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.statusButton,
+.deleteButton {
+  padding: 7px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.statusButton {
+  border: 1px solid #7c3aed;
+  background: #ffffff;
+  color: #7c3aed;
+}
+
+.statusButton:hover {
+  background: #f3e8ff;
+}
+
+.deleteButton {
+  border: 1px solid #d32f2f;
+  background: #ffffff;
+  color: #d32f2f;
+}
+
+.deleteButton:hover {
+  background: #ffebee;
+}
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .createButton {
+    width: 100%;
+  }
+}
