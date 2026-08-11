@@ -12,7 +12,7 @@ import BookingResultPage from "./pages/BookingResultPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminMoviesPage from "./pages/AdminMoviesPage/AdminMoviesPage";
-// import AdminSessionsPage from "./pages/AdminSessionsPage";
+import AdminSessionsPage from "./pages/AdminSessionsPage/AdminSessionsPage";
 // import AdminBookingsPage from "./pages/AdminBookingsPage";
 
 function App() {
@@ -47,8 +47,16 @@ function App() {
           }
         />
 
-        {/* <Route path="/admin/sessions" element={<AdminSessionsPage />} />
-        <Route path="/admin/bookings" element={<AdminBookingsPage />} /> */}
+        <Route
+          path="/admin/sessions"
+          element={
+            <AdminGuard>
+              <AdminSessionsPage />
+            </AdminGuard>
+          }
+        />
+
+        {/* <Route path="/admin/bookings" element={<AdminBookingsPage />} /> */}
       </Routes>
     </Layout>
   );
