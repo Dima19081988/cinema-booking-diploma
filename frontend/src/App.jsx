@@ -13,7 +13,7 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AdminMoviesPage from "./pages/AdminMoviesPage/AdminMoviesPage";
 import AdminSessionsPage from "./pages/AdminSessionsPage/AdminSessionsPage";
-// import AdminBookingsPage from "./pages/AdminBookingsPage";
+import AdminBookingsPage from "./pages/AdminBookingsPage/AdminBookingsPage";
 
 function App() {
   return (
@@ -56,7 +56,15 @@ function App() {
           }
         />
 
-        {/* <Route path="/admin/bookings" element={<AdminBookingsPage />} /> */}
+        <Route
+          path="/admin/bookings"
+          element={
+            <AdminGuard>
+              <AdminBookingsPage />
+            </AdminGuard>
+          }
+        />
+
       </Routes>
     </Layout>
   );
