@@ -91,6 +91,14 @@ class PublicBookingQrView(APIView):
             id=booking_id
         )
 
+        if booking.status == Booking.Status.CANCELED:
+            return Response(
+                {
+                    'detail': 'Бронирование отменено. QR-билет недействителен.'
+                },
+                status=status.HTTP_410_GONE,
+            )
+
         if hasattr(booking, 'ticket') and booking.ticket.qr_image:
             booking.ticket.qr_image.open('rb')
             return HttpResponse(
@@ -147,7 +155,15 @@ class AdminBookingListView(APIView):
     permission_classes = [IsAdminUser]
 
     def get(self, request):
-        bookings = Booking.objects.select_related('session', 'seat').all().order_by('-created_at')
+        bookings = (
+            Booking.objects.select_related(
+                "session__movie",
+                "session__hall",
+                "seat",
+            )
+            .all()
+            .order_by("-created_at")
+        )
         serializer = AdminBookingListSerializer(
             bookings,
             many=True,
@@ -176,6 +192,17 @@ class AdminBookingStatusUpdateView(APIView):
 
         booking.refresh_from_db()
 
+        if booking.status == Booking.Status.CANCELED:
+            Ticket.objects.filter(booking=booking).delete()
+
+            return Response({
+                'data': {
+                    'id': booking.id,
+                    'booking_code': booking.booking_code,
+                    'status': booking.status,
+                }
+            })
+
         if booking.status == Booking.Status.CONFIRMED:
             payload = build_ticket_payload(booking)
 
@@ -197,6 +224,6 @@ class AdminBookingStatusUpdateView(APIView):
             'data': {
                 'id': booking_id,
                 'booking_code': booking.booking_code,
-                'status': serializer.instance.status,
+                'status': booking.status,
             }
         })

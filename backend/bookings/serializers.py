@@ -224,21 +224,51 @@ class TicketSerializer(serializers.ModelSerializer):
 class AdminBookingListSerializer(serializers.ModelSerializer):
     session_id = serializers.IntegerField(read_only=True)
     seat_id = serializers.IntegerField(read_only=True)
+    movie_title = serializers.CharField(
+        source="session.movie.title",
+        read_only=True,
+    )
+    hall_name = serializers.CharField(
+        source="session.hall.name",
+        read_only=True,
+    )
+    session_start_at = serializers.DateTimeField(
+        source="session.start_at",
+        read_only=True,
+    )
+    row_number = serializers.IntegerField(
+        source="seat.row_number",
+        read_only=True,
+    )
+    seat_number = serializers.IntegerField(
+        source="seat.seat_number",
+        read_only=True,
+    )
+    seat_type = serializers.CharField(
+        source="seat.seat_type",
+        read_only=True,
+    )
 
     class Meta:
         model = Booking
         fields = [
-            'id',
-            'session_id',
-            'seat_id',
-            'guest_name',
-            'guest_email',
-            'guest_phone',
-            'booking_code',
-            'status',
-            'expires_at',
-            'reserved_at',
-            'created_at',
+            "id",
+            "session_id",
+            "seat_id",
+            "movie_title",
+            "hall_name",
+            "session_start_at",
+            "row_number",
+            "seat_number",
+            "seat_type",
+            "guest_name",
+            "guest_email",
+            "guest_phone",
+            "booking_code",
+            "status",
+            "expires_at",
+            "reserved_at",
+            "created_at",
         ]
 
 class AdminBookingStatusUpdateSerializer(serializers.ModelSerializer):
